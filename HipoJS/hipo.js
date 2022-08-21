@@ -1,4 +1,5 @@
 var Hipo = (function (exports = {}) {
+    console.log('here is Hipo')
     exports.addScriptNode = addScriptNode
     exports.appendToHeader = appendToHeader
     /**

@@ -1,11 +1,11 @@
 var Hipo = (function (exports = {}) {
-    console.log('here is Hipo')
-    exports.addScriptNode = addScriptNode
-    exports.appendToHeader = appendToHeader
+    console.log("here is Hipo");
+    exports.addScriptNode = addScriptNode;
+    exports.appendToHeader = appendToHeader;
     /**
      * 使用对象描述创建元素
      */
-     function addScriptNode(src) {
+    function addScriptNode(src) {
         var node = document.createElement("script");
         node.type = "text/javascript";
         node.src = src;
@@ -136,5 +136,52 @@ var Hipo = (function (exports = {}) {
         console.log(tree);
         return tree;
     }
-    return exports
+
+    /**
+     * 用 xpath 获取元素数组集合
+     */
+    exports.xnode = xnode;
+    function xnode(path) {
+        let xResults = document.evaluate(
+            path,
+            document.body,
+            null,
+            XPathResult.ORDERED_NODE_ITERATOR_TYPE,
+            null
+        ); // 这是个 xpathResult 对象
+        let el;
+        let els = [];
+        while ((el = xResults.iterateNext())) {
+            els.push(el);
+        }
+        return els;
+    }
+
+    /**
+     * 计算元素拥有多少文本节点
+     */
+    exports.childNodesCountOfText = childNodesCountOfText
+    function childNodesCountOfText(nod) {
+        var textCount = 0;
+        nod.childNodes.forEach((sub) => {
+            if (sub.nodeType === 3) textCount++;
+        });
+        return textCount;
+    }
+    /**
+     * 返回所有子文本节点
+     * @param {node} nod
+     */
+    exports.childNodesOfText = childNodesOfText
+    function childNodesOfText(nod) {
+        var nodList = [];
+        nod.childNodes.forEach((sub) => {
+            if (sub.nodeType === 3) {
+                nodList.push(sub);
+            }
+        });
+        return nodList;
+    }
+
+    return exports;
 })();

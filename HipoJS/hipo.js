@@ -1,10 +1,32 @@
-var Hipo = (function (exports={}) {
-    
+var Hipo = (function (exports = {}) {
+    exports.addScriptNode = addScriptNode
+    exports.appendToHeader = appendToHeader
+    /**
+     * 使用对象描述创建元素
+     */
+     function addScriptNode(src) {
+        var node = document.createElement("script");
+        node.type = "text/javascript";
+        node.src = src;
+        appendToHeader(node);
+    }
+
+    /**
+     * 将 node|Element 插入 Header
+     */
+    function appendToHeader(node) {
+        var headNode = document.getElementsByTagName("head")[0];
+        headNode ||
+            (headNode = document.body.parentNode.appendChild(
+                document.createElement("head")
+            )); // 相当于 如果 node 不存在, 就执行后面的, 好有意思的写法,其他语言也能这样不 php 有 ??
+        headNode.appendChild(node);
+    }
     /**
      * 传入css选择器字符串, 转成 Element
      * div>p+p+div>p
      */
-    exports.elementChain=elementChain
+    exports.elementChain = elementChain;
     function elementChain(chain) {
         elementChainBuild(chain);
         var res = window.NiangYaoJiaRen.node;
@@ -113,6 +135,5 @@ var Hipo = (function (exports={}) {
         console.log(tree);
         return tree;
     }
-
-    
+    return exports
 })();

@@ -183,5 +183,42 @@ var Hipo = (function (exports = {}) {
         return nodList;
     }
 
+    /**
+     * 未测试...可能破坏原页面..还是不要 remove 而是 display none 下次要改
+     */
+    exports.rename = rename
+    function rename(node,newName){
+        let copy = node.parentNode.insertBefore(document.createElement(newName),node)
+        while(node.firstChild){
+            copy.appendChild(node.firstChild)
+        }
+        node.remove()
+
+
+    }
+    exports.addStyle = addStyle
+    function addStyle(el, styles) {
+        let hasStyle = el.getAttribute("style");
+        if (!hasStyle) {
+            // 没有内联样式, 创建 Style 属性并插入  https://developer.mozilla.org/zh-CN/docs/Web/API/Document/createAttribute
+            // 直接用 setAttribute 会更简单, setAttribue 会检查有没有这个属性, 如果没有会创建, 有就覆盖
+            let attr = document.createAttribute("style");
+            attr.value = styles;
+            el.setAttributeNode(attr);
+        } else {
+            // 读取旧样式
+            let oldStyle = el.getAttribute("style").trim();
+            // 分号处理,旧值末尾加分号, 如果 -1 是 undefined ,说是他定义了 style 属性, 却没给值, 此时也不需要加分号
+            if (
+                oldStyle[oldStyle.length - 1] &&
+                oldStyle[oldStyle.length - 1] !== ";"
+            )
+                oldStyle = oldStyle + ";";
+            // 旧值末尾总有分号, 新值前端就不能有分号了
+            if (styles[0] == ";") styles = styles.slice(1);
+            // 设置节点属性
+            el.setAttribute("style", oldStyle + styles); // 如果不存在会自动创建, 所以上一步没啥用啊
+        }
+    }
     return exports;
 })();

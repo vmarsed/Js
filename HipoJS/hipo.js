@@ -220,5 +220,15 @@ var Hipo = (function (exports = {}) {
             el.setAttribute("style", oldStyle + styles); // 如果不存在会自动创建, 所以上一步没啥用啊
         }
     }
+
+    exports.insertAfter = insertAfter
+    function insertAfter(newNode,refNode){
+        let nextNode = refNode.nextSibling
+        if (nextNode){
+            return nextNode.insertBefore(newNode,nextNode)
+        }else{
+            return refNode.parentNode.appendChild(newNode)
+        }
+    }
     return exports;
 })();

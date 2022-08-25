@@ -226,10 +226,11 @@ var Hipo = (function (exports = {}) {
         // let nextNode = refNode.nextSibling // 这个会出现 div+p 时硬是认为 div 后面有个 #text 然后才是p 所以需要处理文本节点, 此处偷懒, 用 nextElementSibling 忽略文本节点
         let nextNode = refNode.nextElementSibling
         if (nextNode){
-            return nextNode.insertBefore(newNode,nextNode)
+            return nextNode.parentNode.insertBefore(newNode,nextNode)
         }else{
             return refNode.parentNode.appendChild(newNode)
         }
+        // 按说还得弄个 如果 refNode 本身是个根节点的情况
     }
     return exports;
 })();

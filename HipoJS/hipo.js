@@ -223,7 +223,8 @@ var Hipo = (function (exports = {}) {
 
     exports.insertAfter = insertAfter
     function insertAfter(newNode,refNode){
-        let nextNode = refNode.nextSibling
+        // let nextNode = refNode.nextSibling // 这个会出现 div+p 时硬是认为 div 后面有个 #text 然后才是p 所以需要处理文本节点, 此处偷懒, 用 nextElementSibling 忽略文本节点
+        let nextNode = refNode.nextElementSibling
         if (nextNode){
             return nextNode.insertBefore(newNode,nextNode)
         }else{
